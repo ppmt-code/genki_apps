@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>げんきでるボタン</title>
+<style>
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: linear-gradient(#ffeef8, #dff7ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  width: 80%;
+  max-width: 350px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  position: relative;
+  z-index: 2;
+}
+h1 {
+  color: hotpink;
+}
+#message {
+  font-size: 26px;
+  margin: 30px 0;
+  min-height: 80px;
+  line-height: 1.5;
+}
+button {
+  font-size: 20px;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 999px;
+  background: pink;
+  color: white;
+}
+button:active {
+  transform: scale(0.95);
+}
+.sparkle {
+  position: absolute;
+  font-size: 30px;
+  animation: fall 2s linear forwards;
+}
+@keyframes fall {
+  0% {
+    transform: translateY(-50px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+.rainbow {
+  animation: rainbowFlash 1s infinite;
+}
+@keyframes rainbowFlash {
+  0% { background: #ffeef8; }
+  25% { background: #fff0a8; }
+  50% { background: #c8ffd9; }
+  75% { background: #cde7ff; }
+  100% { background: #ffeef8; }
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🌈げんきでるボタン✨</h1>
+  <div id="message">
+    ボタンをおしてね！
+  </div>
+  <button onclick="showMessage()">
+    おしてみる！
+  </button>
+</div>
+<script>
+const messages = [
+  "きょうも えらい！",
+  "だいじょうぶ！",
+  "にこにこ すてき！",
+  "がんばってるね！",
+  "きみは すごい！",
+  "いっぱい わらおう！",
+  "たのしく いこう！"
+];
+const specialMessages = [
+  "✨きみは たからもの！✨",
+  "🌈スーパーげんきパワー！🌈",
+  "✨きょうのラッキーキッズ！✨",
+  "💖えがお100てん！💖"
+];
+let count = 0;
+let busy = false;
+function showMessage() {
+  if (busy) return;
+  busy = true;
+  count++;
+  const message = document.getElementById("message");
+  message.innerText = "どきどき…";
+  setTimeout(() => {
+    if (count % 10 === 0) {
+      const special =
+        specialMessages[
+          Math.floor(Math.random() * specialMessages.length)
+        ];
+      message.innerText = special;
+      startRainbow();
+      sparkleBurst();
+    } else {
+      const random =
+        messages[
+          Math.floor(Math.random() * messages.length)
+        ];
+      message.innerText = random;
+    }
+    busy = false;
+  }, 1200);
+}
+function sparkleBurst() {
+  for (let i = 0; i < 30; i++) {
+    const sparkle = document.createElement("div");
+    sparkle.className = "sparkle";
+    sparkle.innerText = ["✨","🌟","💖","⭐"][Math.floor(Math.random() * 4)];
+    sparkle.style.left = Math.random() * 100 + "vw";
+    sparkle.style.top = "-50px";
+    sparkle.style.fontSize =
+      (20 + Math.random() * 30) + "px";
+    document.body.appendChild(sparkle);
+    setTimeout(() => {
+      sparkle.remove();
+    }, 2000);
+  }
+}
+function startRainbow() {
+  document.body.classList.add("rainbow");
+  setTimeout(() => {
+    document.body.classList.remove("rainbow");
+  }, 4000);
+}
+</script>
+</body>
+</html>
